@@ -10,6 +10,9 @@ Companion code for:
 """
 
 import os
+from google.adk.tools.mcp_tool import McpToolset
+from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
+from mcp import StdioServerParameters
 
 ALLOWED_PATH = os.path.dirname(os.path.abspath(__file__))
 
