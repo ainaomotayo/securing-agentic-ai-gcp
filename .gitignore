@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+
+# Google credentials (never commit these)
+*.json
+service-account-key.json
+application_default_credentials.json
+
+# Build artifacts
+*.pdf
+*.epub
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
