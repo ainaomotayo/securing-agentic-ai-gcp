@@ -9,10 +9,18 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
-def restrict_browser_navigation(tool_context, tool_name: str, tool_args: dict) -> dict | None:
+from google.adk.tools.base_tool import BaseTool
+from google.adk.tools import ToolContext
+from typing import Dict, Any, Optional
+
+def restrict_browser_navigation(
+    tool: BaseTool,
+    args: Dict[str, Any],
+    tool_context: ToolContext,
+) -> Optional[Dict]:
     allowed_domains = tool_context.state.get("app:allowed_browser_domains", [])
-    if tool_name in ("navigate", "click"):
-        url = tool_args.get("url", "")
+    if tool.name in ("navigate", "click"):
+        url = args.get("url", "")
         if url and not any(url.startswith(f"https://{d}") for d in allowed_domains):
             return {"error": f"Navigation to {url} is outside the allowed domain list."}
     return None

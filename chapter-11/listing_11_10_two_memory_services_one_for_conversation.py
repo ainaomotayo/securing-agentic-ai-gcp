@@ -17,7 +17,7 @@ async def retrieve_with_source_labels(
 ) -> dict:
     conversation_results = await conversation_memory.search_memory(
         app_name=APP_NAME,
-        user_id=tool_context.invocation_context.session.user_id,
+        user_id=tool_context.session.user_id,
         query=query
     )
     policy_results = await policy_memory.search_memory(

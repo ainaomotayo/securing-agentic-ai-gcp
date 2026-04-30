@@ -38,7 +38,7 @@ def _extract_user_content_from_session(session) -> list[str]:
     return user_texts
 
 async def validated_save_to_memory_callback(callback_context):
-    session = callback_context._invocation_context.session
+    session = callback_context.session
     user_texts = _extract_user_content_from_session(session)
 
     for text in user_texts:
@@ -53,4 +53,4 @@ async def validated_save_to_memory_callback(callback_context):
             return  # Skip add_session_to_memory entirely
 
     # Content passed validation; proceed with memory ingestion
-    await callback_context._invocation_context.memory_service.add_session_to_memory(session)
+    await callback_context.add_session_to_memory()

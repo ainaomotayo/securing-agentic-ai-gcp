@@ -31,7 +31,7 @@ def secure_tool(tool_name: str, max_input_length: int = 1000):
         @wraps(func)
         def wrapper(*args, tool_context: Optional[ToolContext] = None, **kwargs) -> dict:
             session_id = (
-                tool_context.invocation_context.session.id
+                tool_context.session.id
                 if tool_context else "no-session"
             )
 

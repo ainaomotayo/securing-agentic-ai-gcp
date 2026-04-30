@@ -31,5 +31,5 @@ analytics_tools = McpToolset(
 agent = LlmAgent(
     model="gemini-2.0-flash",
     name="enterprise_agent",
-    tools=[*crm_tools.get_tools(), *analytics_tools.get_tools()],
+    tools=[crm_tools, analytics_tools],
 )

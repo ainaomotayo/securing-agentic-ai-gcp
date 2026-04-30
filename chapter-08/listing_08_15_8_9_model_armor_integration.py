@@ -58,7 +58,7 @@ class ModelArmorGuard:
             logger.warning(
                 "Model Armor blocked input",
                 extra={
-                    "session_id": callback_context.invocation_context.session.id,
+                    "session_id": callback_context.state.get("app:session_id", "unknown"),
                     "filter_results": str(response.sanitization_result.filter_results),
                 }
             )
@@ -101,7 +101,7 @@ class ModelArmorGuard:
         if action == modelarmor_v1.FilterMatchState.MATCH_FOUND:
             logger.warning(
                 "Model Armor blocked output",
-                extra={"session_id": callback_context.invocation_context.session.id}
+                extra={"session_id": callback_context.state.get("app:session_id", "unknown")}
             )
             return LlmResponse(
                 content=types.Content(

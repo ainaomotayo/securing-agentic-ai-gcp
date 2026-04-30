@@ -19,7 +19,7 @@ def process_refund(
     """Process a refund. Amount is subject to policy limits from session state."""
 
     # Policy comes from app: prefixed state, set by application code, not by the model
-    policy = tool_context.invocation_context.session.state.get("app:refund_policy", {})
+    policy = tool_context.state.get("app:refund_policy", {})
 
     max_amount = policy.get("max_amount", 0)  # Default to 0 if policy not set (fail closed)
     allowed_statuses = policy.get("allowed_order_statuses", [])

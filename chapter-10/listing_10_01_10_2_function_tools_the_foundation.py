@@ -50,7 +50,7 @@ def search_product_catalog(
             "event": "tool_call",
             "tool": "search_product_catalog",
             "args_hash": hashlib.sha256(f"{query}:{category}:{effective_max}".encode()).hexdigest()[:16],
-            "session_id": tool_context.invocation_context.session.id,
+            "session_id": tool_context.session.id,
         }))
 
         results = _catalog_search(query, category, effective_max)

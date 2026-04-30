@@ -45,7 +45,7 @@ def trace_before_tool(
             "adk.invocation_id": invocation_id,
             "adk.agent_name": tool_context.agent_name,
             "adk.tool_name": tool_name,
-            "adk.session_id": tool_context.invocation_context.session.id,
+            "adk.session_id": tool_context.session.id,
         }
     )
     _active_spans[f"{invocation_id}:{tool_name}"] = span

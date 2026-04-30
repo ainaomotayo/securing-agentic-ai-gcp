@@ -54,7 +54,7 @@ def audit_after_tool(
     tool_response: Any,
 ) -> Optional[Any]:
     """Emit a structured audit record after every tool call."""
-    session = tool_context.invocation_context.session
+    session = tool_context.session
     invocation_id = tool_context.invocation_id
 
     # Determine outcome from response
@@ -88,7 +88,7 @@ def audit_after_model(
     llm_response,
 ) -> Optional[Any]:
     """Emit a structured audit record after every model call."""
-    session = callback_context.invocation_context.session
+    session = callback_context.session
     invocation_id = callback_context.invocation_id
 
     function_calls = []

@@ -59,7 +59,7 @@ def process_refund(
     tool_context: ToolContext,
 ) -> dict:
     """Process a customer refund, subject to policy limits."""
-    policy = tool_context.invocation_context.session.state.get(
+    policy = tool_context.state.get(
         "app:refund_policy", {}
     )
     max_amount = policy.get("max_amount", 0)
@@ -81,7 +81,7 @@ def process_refund(
         extra={
             "order_id": order_id,
             "amount": amount,
-            "session_id": tool_context.invocation_context.session.id,
+            "session_id": tool_context.session.id,
         }
     )
     return {"status": "refund_processed", "order_id": order_id, "amount": amount}
@@ -138,7 +138,7 @@ def before_model_validation(
             if pattern.search(user_text):
                 logger.warning(
                     "Injection pattern detected",
-                    extra={"pattern": pattern.pattern, "session_id": callback_context.invocation_context.session.id}
+                    extra={"pattern": pattern.pattern, "session_id": callback_context.state.get("app:session_id", "unknown")}
                 )
                 return LlmResponse(
                     content=types.Content(

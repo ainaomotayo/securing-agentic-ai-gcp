@@ -17,11 +17,7 @@ async def screened_load_memory(
     tool_context: ToolContext,
 ) -> dict:
     """Load memories and screen them for adversarial content before returning."""
-    results = await tool_context.invocation_context.memory_service.search_memory(
-        app_name=tool_context.invocation_context.session.app_name,
-        user_id=tool_context.invocation_context.session.user_id,
-        query=query
-    )
+    results = await tool_context.search_memory(query)
 
     safe_memories = []
     flagged_count = 0

@@ -10,6 +10,8 @@ Companion code for:
 """
 
 from google.adk.agents import CallbackContext
+from google.genai import types
+from typing import Optional
 import logging
 import json
 import hashlib
@@ -19,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 def compliance_after_agent(
     callback_context: CallbackContext,
-) -> None:
+) -> Optional[types.Content]:
     """Record compliance-relevant facts about every agent invocation."""
     user_id_raw = callback_context.state.get("app:user_id", "unknown")
 

@@ -32,8 +32,8 @@ async def code_execution_hitl_gate(
         return None  # No code to review; let execution proceed
 
     invocation_id = tool_context.invocation_id
-    session_id = tool_context.invocation_context.session.id
-    user_id = tool_context.invocation_context.session.user_id
+    session_id = tool_context.session.id
+    user_id = tool_context.session.user_id
 
     # Build the approval payload for the reviewer
     approval_payload = {

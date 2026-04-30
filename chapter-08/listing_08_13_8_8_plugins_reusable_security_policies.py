@@ -71,7 +71,7 @@ class OrganizationSecurityPlugin(BasePlugin):
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "tool": tool.name,
             "args_hash": hashlib.sha256(str(args).encode()).hexdigest()[:16],
-            "session_id": tool_context.invocation_context.session.id,
+            "session_id": tool_context.session.id,
         }))
         return None
 

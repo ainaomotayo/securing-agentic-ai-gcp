@@ -41,7 +41,7 @@ def anomaly_detection_before_tool(
 
     if current_count > TOOL_CALL_ANOMALY_THRESHOLD:
         invocation_id = tool_context.invocation_id
-        session = tool_context.invocation_context.session
+        session = tool_context.session
 
         anomaly_logger.log_struct({
             "anomaly_type": "tool_call_frequency",

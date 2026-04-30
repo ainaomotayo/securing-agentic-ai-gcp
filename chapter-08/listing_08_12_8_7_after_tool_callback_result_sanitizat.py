@@ -50,7 +50,7 @@ def sanitize_after_tool(
                 extra={
                     "tool": tool.name,
                     "pattern": pattern.pattern,
-                    "session_id": tool_context.invocation_context.session.id,
+                    "session_id": tool_context.session.id,
                 }
             )
             # Replace the entire result with a safe summary

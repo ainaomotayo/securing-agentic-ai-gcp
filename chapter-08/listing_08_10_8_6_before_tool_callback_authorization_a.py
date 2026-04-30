@@ -28,7 +28,7 @@ def authorize_before_tool(
 
     # High-risk tools require explicit permission in app: state
     if tool_name in HIGH_RISK_TOOLS:
-        permitted_tools = tool_context.invocation_context.session.state.get(
+        permitted_tools = tool_context.state.get(
             "app:permitted_tools", []
         )
 
@@ -37,7 +37,7 @@ def authorize_before_tool(
                 "Tool authorization denied",
                 extra={
                     "tool": tool_name,
-                    "session_id": tool_context.invocation_context.session.id,
+                    "session_id": tool_context.session.id,
                 }
             )
             return {
@@ -48,7 +48,7 @@ def authorize_before_tool(
         # Validate args for financial tools
         if tool_name == "process_refund":
             amount = args.get("amount", 0)
-            max_allowed = tool_context.invocation_context.session.state.get(
+            max_allowed = tool_context.state.get(
                 "app:max_refund", 0
             )
             if amount > max_allowed:

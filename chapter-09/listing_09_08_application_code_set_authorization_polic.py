@@ -15,11 +15,9 @@ def search_case_law(
     tool_context: ToolContext,
 ) -> dict:
     """Search approved legal databases for case law."""
-    state = tool_context.invocation_context.session.state
-
     # Policy from app: prefix; model cannot override this
-    allowed_dbs = state.get("app:research_db_allowlist", [])
-    max_results = state.get("app:max_research_results", 5)
+    allowed_dbs = tool_context.state.get("app:research_db_allowlist", [])
+    max_results = tool_context.state.get("app:max_research_results", 5)
 
     # The tool enforces the policy; the model cannot override it
     results = search_legal_databases(
@@ -30,6 +28,6 @@ def search_case_law(
 
     # Store results in temp:, ephemeral and only for this invocation
     # Do NOT write to no-prefix keys shared with the Drafting Agent
-    tool_context.invocation_context.session.state["temp:research_results"] = results
+    tool_context.state["temp:research_results"] = results
 
     return {"summary": summarize_results(results), "result_count": len(results)}
