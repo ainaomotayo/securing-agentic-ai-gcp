@@ -10,7 +10,7 @@ Companion code for:
 """
 
 import requests
-from google.adk.tools.openapi_tool import OpenAPIToolset
+from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import OpenAPIToolset
 from google.adk.tools import AuthScheme, AuthCredential, APIKey
 from google.cloud import secretmanager
 

@@ -9,7 +9,7 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
-from google.adk.tools.openapi_tool import OpenAPIToolset
+from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import OpenAPIToolset
 from google.adk.tools import AuthCredential, OAuth2, AuthScheme
 from google.adk.tools.openapi_tool.auth.auth_credential import OAuth2Auth
 

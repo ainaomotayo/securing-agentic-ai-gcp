@@ -9,8 +9,8 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
-from typing import Optional, Any
-from google.adk.agents.callback_context import CallbackContext
+from typing import Optional, Any, Dict
+from google.adk.tools.base_tool import BaseTool
 from google.adk.tools import ToolContext, FunctionTool
 
 # Risk classification per tool name
@@ -26,9 +26,8 @@ TOOL_RISK_REGISTRY = {
 }
 
 def risk_based_hitl(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
 ) -> Optional[dict]:
     """before_tool_callback: enforce risk-based HITL thresholds."""

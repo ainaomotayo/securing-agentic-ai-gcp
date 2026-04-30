@@ -11,9 +11,9 @@ Companion code for:
 
 import json
 import re
-from typing import Optional, Any
+from typing import Optional, Any, Dict
+from google.adk.tools.base_tool import BaseTool
 from google.adk.tools import ToolContext
-from google.adk.agents.callback_context import CallbackContext
 
 # Patterns that signal output injection attempts
 OUTPUT_INJECTION_PATTERNS = [
@@ -24,9 +24,8 @@ OUTPUT_INJECTION_PATTERNS = [
 ]
 
 def validate_code_execution_output(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
     tool_response: Any,
 ) -> Optional[Any]:

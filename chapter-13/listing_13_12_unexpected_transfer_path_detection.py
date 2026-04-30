@@ -9,10 +9,18 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
+import google.cloud.logging
+from typing import Optional, Dict, Any
+from google.adk.tools.base_tool import BaseTool
+from google.adk.tools import ToolContext
+
+cloud_client = google.cloud.logging.Client()
+anomaly_logger = cloud_client.logger("adk-agent-anomaly")
+
+
 def monitor_agent_transfers(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
 ) -> Optional[dict]:
     """Log agent transfer events for anomaly analysis."""
@@ -22,8 +30,8 @@ def monitor_agent_transfers(
         return None
 
     target_agent = args.get("agent_name", "unknown")
-    source_agent = tool_context.invocation_context.agent.name
-    invocation_id = tool_context.invocation_context.invocation_id
+    source_agent = tool_context.agent_name
+    invocation_id = tool_context.invocation_id
 
     # Expected transfer graph (populate from agent architecture)
     EXPECTED_TRANSFERS = {

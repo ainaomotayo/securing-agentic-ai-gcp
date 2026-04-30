@@ -12,7 +12,8 @@ Companion code for:
 from google.adk.plugins import BasePlugin
 from google.adk.agents import CallbackContext
 from google.adk.models import LlmRequest, LlmResponse
-from google.adk.tools import BaseTool, ToolContext
+from google.adk.tools.base_tool import BaseTool
+from google.adk.tools import ToolContext
 from typing import Optional, Dict, Any
 import logging
 import json
@@ -27,10 +28,12 @@ class OrganizationSecurityPlugin(BasePlugin):
     Attach to the runner to apply across all agents.
     """
 
-    name = "org_security_plugin"
+    def __init__(self) -> None:
+        super().__init__(name="org_security_plugin")
 
-    def before_model(
+    async def before_model_callback(
         self,
+        *,
         callback_context: CallbackContext,
         llm_request: LlmRequest,
     ) -> Optional[LlmResponse]:
@@ -45,8 +48,9 @@ class OrganizationSecurityPlugin(BasePlugin):
         # PII scrubbing logic here (reuse the function from Section 8.4)
         return None
 
-    def after_model(
+    async def after_model_callback(
         self,
+        *,
         callback_context: CallbackContext,
         llm_response: LlmResponse,
     ) -> Optional[LlmResponse]:
@@ -54,8 +58,9 @@ class OrganizationSecurityPlugin(BasePlugin):
         # PII redaction logic here (reuse the function from Section 8.5)
         return None
 
-    def before_tool(
+    async def before_tool_callback(
         self,
+        *,
         tool: BaseTool,
         args: Dict[str, Any],
         tool_context: ToolContext,
@@ -70,8 +75,9 @@ class OrganizationSecurityPlugin(BasePlugin):
         }))
         return None
 
-    def after_tool(
+    async def after_tool_callback(
         self,
+        *,
         tool: BaseTool,
         args: Dict[str, Any],
         tool_context: ToolContext,

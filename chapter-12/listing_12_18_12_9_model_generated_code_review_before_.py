@@ -13,18 +13,17 @@ import subprocess
 import json
 import tempfile
 import os
-from typing import Optional, Any
+from typing import Optional, Any, Dict
+from google.adk.tools.base_tool import BaseTool
 from google.adk.tools import ToolContext
-from google.adk.agents.callback_context import CallbackContext
 
 # bandit severity levels and confidence levels to reject
 REJECT_SEVERITY = {"HIGH", "MEDIUM"}
 REJECT_CONFIDENCE = {"HIGH"}
 
 def static_analysis_gate(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
 ) -> Optional[dict]:
     """before_tool_callback: run bandit static analysis on generated code."""

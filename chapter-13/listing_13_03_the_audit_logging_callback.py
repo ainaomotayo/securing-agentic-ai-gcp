@@ -13,9 +13,10 @@ import hashlib
 import json
 import logging
 import time
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 import google.cloud.logging
 from google.adk.agents.callback_context import CallbackContext
+from google.adk.tools.base_tool import BaseTool
 from google.adk.tools import ToolContext
 
 # Initialize Cloud Logging structured logger
@@ -47,15 +48,14 @@ def _get_agent_identity() -> str:
 
 
 def audit_after_tool(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
     tool_response: Any,
 ) -> Optional[Any]:
     """Emit a structured audit record after every tool call."""
     session = tool_context.invocation_context.session
-    invocation_id = tool_context.invocation_context.invocation_id
+    invocation_id = tool_context.invocation_id
 
     # Determine outcome from response
     if isinstance(tool_response, dict):
@@ -68,7 +68,7 @@ def audit_after_tool(
     record = {
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S.000Z", time.gmtime()),
         "invocation_id": invocation_id,
-        "agent_name": tool_context.invocation_context.agent.name,
+        "agent_name": tool_context.agent_name,
         "agent_identity": _get_agent_identity(),
         "user_id_token": _hash_user_id(session.user_id),
         "session_id": session.id,
@@ -89,7 +89,7 @@ def audit_after_model(
 ) -> Optional[Any]:
     """Emit a structured audit record after every model call."""
     session = callback_context.invocation_context.session
-    invocation_id = callback_context.invocation_context.invocation_id
+    invocation_id = callback_context.invocation_id
 
     function_calls = []
     if llm_response and llm_response.content:

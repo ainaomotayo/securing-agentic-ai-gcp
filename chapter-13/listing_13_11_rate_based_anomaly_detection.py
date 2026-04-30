@@ -9,9 +9,10 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
+import hashlib
 import logging
-from typing import Optional
-from google.adk.agents.callback_context import CallbackContext
+from typing import Optional, Dict, Any
+from google.adk.tools.base_tool import BaseTool
 from google.adk.tools import ToolContext
 import google.cloud.logging
 
@@ -20,10 +21,14 @@ anomaly_logger = cloud_client.logger("adk-agent-anomaly")
 
 TOOL_CALL_ANOMALY_THRESHOLD = 20  # Per invocation
 
+
+def _hash_user_id(user_id: str) -> str:
+    return hashlib.sha256(user_id.encode()).hexdigest()[:16]
+
+
 def anomaly_detection_before_tool(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
 ) -> Optional[dict]:
     """Count tool calls per invocation and alert on anomalous frequency."""
@@ -35,7 +40,7 @@ def anomaly_detection_before_tool(
     tool_context.state[count_key] = current_count
 
     if current_count > TOOL_CALL_ANOMALY_THRESHOLD:
-        invocation_id = tool_context.invocation_context.invocation_id
+        invocation_id = tool_context.invocation_id
         session = tool_context.invocation_context.session
 
         anomaly_logger.log_struct({
@@ -46,7 +51,7 @@ def anomaly_detection_before_tool(
             "invocation_id": invocation_id,
             "session_id": session.id,
             "user_id_token": _hash_user_id(session.user_id),
-            "agent_name": tool_context.invocation_context.agent.name,
+            "agent_name": tool_context.agent_name,
         }, severity="WARNING")
 
         # Option 1: Alert and allow (non-blocking detection)

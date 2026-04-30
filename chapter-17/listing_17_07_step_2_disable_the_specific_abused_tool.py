@@ -9,13 +9,16 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
+from typing import Dict, Any, Optional
+from google.adk.tools.base_tool import BaseTool
+from google.adk.tools import ToolContext
+
 # Emergency tool disable via app: state (set by operator, not agent)
 def emergency_tool_gate(
-    callback_context: CallbackContext,
     tool: BaseTool,
-    args: dict,
+    args: Dict[str, Any],
     tool_context: ToolContext,
-) -> dict | None:
+) -> Optional[dict]:
     disabled_tools = tool_context.state.get("app:disabled_tools", [])
     if tool.name in disabled_tools:
         return {"error": f"Tool {tool.name} is temporarily disabled by operations."}

@@ -10,12 +10,12 @@ Companion code for:
 """
 
 import time
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 from opentelemetry import trace
 from opentelemetry.exporter.cloud_trace import CloudTraceSpanExporter
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from google.adk.agents.callback_context import CallbackContext
+from google.adk.tools.base_tool import BaseTool
 from google.adk.tools import ToolContext
 
 # Configure OpenTelemetry with Cloud Trace exporter
@@ -31,20 +31,19 @@ _active_spans: dict[str, Any] = {}
 
 
 def trace_before_tool(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
 ) -> Optional[dict]:
     """Start a trace span before each tool call."""
-    invocation_id = tool_context.invocation_context.invocation_id
+    invocation_id = tool_context.invocation_id
     tool_name = tool.name if hasattr(tool, "name") else str(tool)
 
     span = tracer.start_span(
         f"tool:{tool_name}",
         attributes={
             "adk.invocation_id": invocation_id,
-            "adk.agent_name": tool_context.invocation_context.agent.name,
+            "adk.agent_name": tool_context.agent_name,
             "adk.tool_name": tool_name,
             "adk.session_id": tool_context.invocation_context.session.id,
         }
@@ -54,14 +53,13 @@ def trace_before_tool(
 
 
 def trace_after_tool(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
     tool_response: Any,
 ) -> Optional[Any]:
     """End the trace span after each tool call."""
-    invocation_id = tool_context.invocation_context.invocation_id
+    invocation_id = tool_context.invocation_id
     tool_name = tool.name if hasattr(tool, "name") else str(tool)
     span_key = f"{invocation_id}:{tool_name}"
 

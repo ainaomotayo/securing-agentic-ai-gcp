@@ -76,7 +76,6 @@ def compliance_before_model_callback(
 
 
 def compliance_before_tool_callback(
-    callback_context: CallbackContext,
     tool: BaseTool,
     args: dict,
     tool_context: ToolContext,

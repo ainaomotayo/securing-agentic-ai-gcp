@@ -11,9 +11,9 @@ Companion code for:
 
 import asyncio
 import logging
-from typing import Optional
+from typing import Optional, Dict, Any
+from google.adk.tools.base_tool import BaseTool
 from google.adk.tools import ToolContext
-from google.adk.agents.callback_context import CallbackContext
 
 logger = logging.getLogger(__name__)
 
@@ -21,9 +21,8 @@ logger = logging.getLogger(__name__)
 _pending_approvals: dict[str, asyncio.Future] = {}
 
 async def code_execution_hitl_gate(
-    callback_context: CallbackContext,
-    tool,
-    args: dict,
+    tool: BaseTool,
+    args: Dict[str, Any],
     tool_context: ToolContext,
 ) -> Optional[dict]:
     """HITL gate: suspend code execution until a human approves or rejects."""
@@ -32,7 +31,7 @@ async def code_execution_hitl_gate(
     if not generated_code:
         return None  # No code to review; let execution proceed
 
-    invocation_id = tool_context.invocation_context.invocation_id
+    invocation_id = tool_context.invocation_id
     session_id = tool_context.invocation_context.session.id
     user_id = tool_context.invocation_context.session.user_id
 
