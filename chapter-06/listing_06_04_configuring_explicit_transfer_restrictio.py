@@ -17,7 +17,8 @@ billing_agent = LlmAgent(
     model="gemini-2.0-flash",
     instruction="Answer billing questions. Do not perform write operations.",
     tools=[get_invoice, get_balance],  # read-only tools
-    allow_transfer=False,  # Billing agent delegates to no one
+    disallow_transfer_to_parent=True,
+    disallow_transfer_to_peers=True,
 )
 
 support_agent = LlmAgent(
@@ -26,7 +27,8 @@ support_agent = LlmAgent(
     model="gemini-2.0-flash",
     instruction="Resolve support requests. Escalate to human if unresolved.",
     tools=[lookup_ticket, create_ticket],
-    allow_transfer=False,
+    disallow_transfer_to_parent=True,
+    disallow_transfer_to_peers=True,
 )
 
 coordinator = LlmAgent(

@@ -17,5 +17,6 @@ intake_agent = LlmAgent(
     instruction="Process the patient intake form and extract structured data.",
     # Explicit: this agent must not transfer to any other agent
     # It only processes the form and returns structured output
-    allow_transfer=False,
+    disallow_transfer_to_parent=True,
+    disallow_transfer_to_peers=True,
 )

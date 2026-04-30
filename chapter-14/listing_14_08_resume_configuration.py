@@ -9,8 +9,7 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
-from google.adk.app import App
-from google.adk.runtime.resume import ResumabilityConfig
+from google.adk.apps import App, ResumabilityConfig
 
 app = App(
     name="payment_agent",

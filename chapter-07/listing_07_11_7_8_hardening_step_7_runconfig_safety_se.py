@@ -9,10 +9,10 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
-from google.adk.runners import RunConfig
+from google.adk.agents.run_config import RunConfig
 
 run_config = RunConfig(
-    max_llm_calls=10,        # Maximum model calls per invocation (default: unlimited)
+    max_llm_calls=10,        # Maximum model calls per invocation (default: 500)
     response_modalities=["TEXT"],  # Restrict output types to text only
 )
 

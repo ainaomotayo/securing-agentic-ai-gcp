@@ -9,8 +9,9 @@ Companion code for:
   Repository: https://github.com/ainaomotayo/securing-agentic-ai-gcp
 """
 
-from google.adk.agents import CallbackContext
-from google.adk.models import LlmResponse
+from typing import Dict, Any, Optional
+from google.adk.tools import BaseTool
+from google.adk.tools.tool_context import ToolContext
 import logging
 import json
 import hashlib
@@ -18,22 +19,25 @@ import hashlib
 logger = logging.getLogger(__name__)
 
 def audit_after_tool(
-    callback_context: CallbackContext,
-    tool_response
-) -> None:
+    tool: BaseTool,
+    args: Dict[str, Any],
+    tool_context: ToolContext,
+    tool_response: Dict,
+) -> Optional[Dict]:
     """Log tool execution with user attribution for compliance."""
     # User ID comes from the session, set by your application layer
-    user_id_raw = callback_context.state.get("user:user_id", "unknown")
+    user_id_raw = tool_context.state.get("user:user_id", "unknown")
     # Hash the user ID before logging to avoid PII in log infrastructure
     user_id_hash = hashlib.sha256(user_id_raw.encode()).hexdigest()[:16]
 
     audit_entry = {
         "agent_identity": "research-agent-prod@my-project.iam.gserviceaccount.com",
         "user_id_hash": user_id_hash,
-        "session_id": callback_context.invocation_context.session.id,
-        "invocation_id": str(callback_context.invocation_context.invocation_id),
-        "tool_name": callback_context.tool_name,
+        "agent_name": tool_context.agent_name,
+        "invocation_id": str(tool_context.invocation_id),
+        "tool_name": tool.name,
         "outcome": "success" if not isinstance(tool_response, Exception) else "error",
     }
     # Emit as structured JSON to Cloud Logging
     logger.info(json.dumps(audit_entry))
+    return None  # None means: use the original tool_response unchanged
