@@ -1,0 +1,3 @@
+Security property: parallel execution expands the attack surface simultaneously.
+Primary threat: race conditions on shared state; parallel compromise of multiple agents.
+Primary mitigation: no shared writable state between parallel branches; merge only at the gather point.

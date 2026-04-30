@@ -1,0 +1,3 @@
+# adk-firestore.properties
+firebase.root.collection.name=adk-session
+gcs.adk.bucket.name=your-gcs-bucket-name

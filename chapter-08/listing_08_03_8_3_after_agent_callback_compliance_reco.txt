@@ -1,0 +1,4 @@
+When: Called immediately after the agent's _run_async_impl completes.
+Purpose: Audit logging, compliance recording, resource cleanup.
+Cannot block or modify the response.
+Source: callbacks-types-of-callbacks.md > Agent Lifecycle Callbacks > After Agent Callback

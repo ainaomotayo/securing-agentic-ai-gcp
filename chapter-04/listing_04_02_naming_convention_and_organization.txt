@@ -1,0 +1,6 @@
+[agent-function]-[environment]@[project-id].iam.gserviceaccount.com
+
+Examples:
+research-agent-prod@my-project.iam.gserviceaccount.com
+customer-support-agent-prod@my-project.iam.gserviceaccount.com
+data-pipeline-agent-staging@my-project.iam.gserviceaccount.com

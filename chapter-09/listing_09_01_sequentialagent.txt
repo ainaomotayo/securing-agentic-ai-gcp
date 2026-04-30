@@ -1,0 +1,3 @@
+Security property: predictable, auditable execution flow.
+Primary threat: hallucinated output from one stage becomes trusted input for the next.
+Primary mitigation: schema validation between stages.

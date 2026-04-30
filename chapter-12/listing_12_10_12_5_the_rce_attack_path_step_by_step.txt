@@ -1,0 +1,5 @@
+Step 1: Indirect prompt injection enters the agent context
+Step 2: The injected instruction instructs the model to write malicious code
+Step 3: The model generates the code without recognizing the malicious intent
+Step 4: The code executor runs the code
+Step 5: The sandbox permits the exfiltration or damage

@@ -1,0 +1,5 @@
+# Too vague: model might route "process this document" here for many reasons
+description = "Handles documents."
+
+# Specific: model has clear routing criteria; scope is auditable
+description = "Retrieves case law summaries from the approved legal database. Accepts search queries only. Does not accept documents for drafting or revision."

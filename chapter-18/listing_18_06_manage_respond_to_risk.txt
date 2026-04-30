@@ -1,0 +1,21 @@
+AI RMF Profile: ADK Production Agent (April 2026)
+
+GOVERN:
+  - Agent Registry: agent-registry.json (see Section 18.7)
+  - Security review process: pre-deployment checklist (Chapter 16)
+  - Incident response plan: Chapter 17 playbook
+
+MAP:
+  - Risk assessment: OWASP LLM Top 10 applied (Chapter 3)
+  - Trust boundaries: Chapter 6 architecture diagram
+  - Stakeholder impact: HITL category definitions (Chapter 14)
+
+MEASURE:
+  - Evaluation criteria: safety_v1 >= 0.9, tool_trajectory_avg_score >= 0.8
+  - Monitoring: adk_tool_call_rate, adk_injection_blocked_rate (Chapter 13)
+  - Testing cadence: adversarial EvalSet runs on every deployment (Chapter 15)
+
+MANAGE:
+  - Mitigation status: Chapter 16 deployment checklist (all 15 controls verified)
+  - Incident log: Cloud Logging project-wide audit export
+  - Continuous improvement: regression EvalSet expanded after each incident

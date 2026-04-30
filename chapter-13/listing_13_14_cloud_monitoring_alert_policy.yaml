@@ -1,0 +1,11 @@
+# alert-injection-block.yaml
+displayName: "ADK Model Armor Injection Block"
+conditions:
+  - displayName: "Injection blocks in last 5 minutes"
+    conditionThreshold:
+      filter: 'metric.type="logging.googleapis.com/user/adk_injection_blocked_rate"'
+      comparison: COMPARISON_GT
+      thresholdValue: 0
+      duration: 300s
+notificationChannels:
+  - projects/your-project/notificationChannels/your-pagerduty-channel

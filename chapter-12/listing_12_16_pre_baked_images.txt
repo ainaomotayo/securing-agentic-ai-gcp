@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+# Pin approved library versions
+RUN pip install --no-cache-dir \
+    pandas==2.2.2 \
+    numpy==1.26.4 \
+    scipy==1.13.0 \
+    matplotlib==3.8.4 \
+    openpyxl==3.1.2
+
+# Remove pip to prevent runtime installation
+RUN pip uninstall -y pip
+
+# Create a non-root user for execution
+RUN useradd -m -u 1000 sandbox
+USER sandbox
+
+WORKDIR /workspace

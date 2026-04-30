@@ -1,0 +1,7 @@
+reimburseTool, _ := functiontool.New(functiontool.Config{
+    Name:        "reimburse",
+    Description: "Reimburse an amount",
+    RequireConfirmation: true,
+}, func(ctx tool.Context, args ReimburseArgs) (ReimburseResult, error) {
+    return ReimburseResult{Status: "ok"}, nil
+})

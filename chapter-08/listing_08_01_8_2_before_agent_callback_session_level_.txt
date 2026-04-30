@@ -1,0 +1,4 @@
+When: Called immediately before the agent's _run_async_impl method.
+Purpose: Session validation, rate limiting, authentication checks, resource setup.
+Return to block: Return types.Content to skip the entire agent run.
+Source: callbacks-types-of-callbacks.md > Agent Lifecycle Callbacks > Before Agent Callback

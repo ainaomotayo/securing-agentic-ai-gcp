@@ -1,0 +1,3 @@
+Security property: bounded by explicit termination condition; unbounded loops are a DoS vector.
+Primary threat: loop-driven resource exhaustion; injection attacks that prevent termination.
+Primary mitigation: explicit max_iterations; termination conditions based on verifiable state, not model output.

@@ -1,0 +1,13 @@
+> my-agent/
+> ├─ app/                 # Core application code
+> │   ├─ agent.py         # Main agent logic
+> │   ├─ agent_engine_app.py # Agent Runtime application logic
+> │   └─ utils/           # Utility functions and helpers
+> ├─ .cloudbuild/         # CI/CD pipeline configurations for Google Cloud Build
+> ├─ deployment/          # Infrastructure and deployment scripts
+> ├─ notebooks/           # Jupyter notebooks for prototyping and evaluation
+> ├─ tests/               # Unit, integration, and load tests
+> ├─ Makefile             # Makefile for common commands
+> ├─ GEMINI.md            # AI-assisted development guide
+> └─ pyproject.toml       # Project dependencies and configuration
+> 

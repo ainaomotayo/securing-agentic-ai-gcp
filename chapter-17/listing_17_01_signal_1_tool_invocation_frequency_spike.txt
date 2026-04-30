@@ -1,0 +1,6 @@
+# Cloud Monitoring alert condition
+resource.type="cloud_run_revision"
+AND jsonPayload.event_type="tool_call"
+AND jsonPayload.tool_name="send_email"
+
+# Alert when count > 3 * 30-day P95 baseline in any 5-minute window

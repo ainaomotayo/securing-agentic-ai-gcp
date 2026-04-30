@@ -1,0 +1,13 @@
+// Java: Firestore-backed session management
+FirestoreOptions firestoreOptions = FirestoreOptions.getDefaultInstance();
+Firestore firestore = firestoreOptions.getService();
+
+FirestoreDatabaseRunner runner = new FirestoreDatabaseRunner(
+    timeAgent,
+    appName,
+    firestore
+);
+
+Session session = new FirestoreSessionService(firestore)
+    .createSession(appName, userId, null, sessionId)
+    .blockingGet();

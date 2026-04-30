@@ -1,0 +1,4 @@
+# In Cloud Run deployment: VPC connector prevents MCP traffic from traversing public internet
+annotations:
+  run.googleapis.com/vpc-access-connector: "projects/my-project/locations/us-central1/connectors/default-connector"
+  run.googleapis.com/vpc-access-egress: "private-ranges-only"

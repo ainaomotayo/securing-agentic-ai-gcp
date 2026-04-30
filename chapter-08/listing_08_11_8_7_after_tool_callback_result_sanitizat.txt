@@ -1,0 +1,4 @@
+When: Called just after the tool's run_async method completes successfully.
+Purpose: Result sanitization, error message scrubbing, sensitive data masking.
+Return to replace: Return a new dict to replace the original tool result.
+Source: callbacks-types-of-callbacks.md > Tool Execution Callbacks > After Tool Callback

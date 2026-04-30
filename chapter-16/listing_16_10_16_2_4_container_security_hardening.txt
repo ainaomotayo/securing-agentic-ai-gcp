@@ -1,0 +1,35 @@
+FROM python:3.13-slim AS builder
+
+WORKDIR /build
+COPY requirements.txt .
+# Pin all dependencies to exact versions with hash verification
+RUN pip install --no-cache-dir --require-hashes -r requirements.txt \
+    --target=/build/deps
+
+# ---- production stage ----
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Copy pre-installed dependencies only (no pip in final image)
+COPY --from=builder /build/deps /app/deps
+
+# Copy agent source
+COPY . .
+
+# Create non-root user with no shell
+RUN adduser --disabled-password --no-create-home --shell /usr/sbin/nologin \
+    --gecos "" --uid 10001 agentuser && \
+    chown -R agentuser:agentuser /app
+
+USER agentuser
+
+ENV PYTHONPATH="/app/deps:$PYTHONPATH"
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Expose only the application port
+EXPOSE 8080
+
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", \
+     "--port", "8080", "--no-access-log"]

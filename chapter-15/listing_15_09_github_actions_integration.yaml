@@ -1,0 +1,53 @@
+# .github/workflows/agent-security-eval.yml
+name: Agent Security Evaluation
+
+on:
+  pull_request:
+    paths:
+      - 'agents/**'
+      - 'callbacks/**'
+      - '**/*.test.json'
+      - '**/*.evalset.json'
+
+jobs:
+  security-eval:
+    runs-on: ubuntu-latest
+    environment: gcp-eval
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ADK
+        run: pip install google-adk[vertexai]
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.EVAL_SERVICE_ACCOUNT }}
+
+      - name: Run security eval suite
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_CLOUD_LOCATION: us-central1
+        run: |
+          adk eval \
+            agents/customer_support_agent/ \
+            tests/security/adversarial_eval_set.evalset.json \
+            --config_file_path=tests/security/eval_config.json \
+            --print_detailed_results
+
+      - name: Run functional eval suite
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_CLOUD_LOCATION: us-central1
+        run: |
+          adk eval \
+            agents/customer_support_agent/ \
+            tests/functional/functional_eval_set.evalset.json \
+            --config_file_path=tests/functional/eval_config.json

@@ -1,0 +1,17 @@
+Internet
+    |
+Cloud Armor (rate limiting, XSS detection)
+    |
+Cloud Load Balancer
+    |
+Identity-Aware Proxy (authentication)
+    |
+Cloud Run: user_agent (public ingress, minimal SA)
+    |
+[internal VPC call]
+    |
+Agent Engine: data_agent (internal only, BigQuery SA)
+    |
+[internal VPC call]
+    |
+Agent Engine: code_agent (internal only, GKE sandbox SA)

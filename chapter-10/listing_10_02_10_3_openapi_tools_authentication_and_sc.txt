@@ -1,0 +1,4 @@
+Authentication on OpenAPI tools:
+- auth_scheme: defines the protocol (APIKey, OAuth2, HTTPBearer, etc.)
+- auth_credential: carries the credential material
+Source: tools-custom-authentication.md > Framework components

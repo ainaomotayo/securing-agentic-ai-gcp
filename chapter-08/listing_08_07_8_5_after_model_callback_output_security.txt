@@ -1,0 +1,4 @@
+When: Called just after the LLM generates a response.
+Purpose: Output sanitization, PII redaction, response format validation.
+Return to replace: Return LlmResponse to replace the model's response entirely.
+Source: callbacks-types-of-callbacks.md > LLM Interaction Callbacks > After Model Callback

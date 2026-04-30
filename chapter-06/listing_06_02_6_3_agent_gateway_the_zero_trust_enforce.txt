@@ -1,0 +1,6 @@
+ALLOW service_account: finance-report-sa@project.iam.gserviceaccount.com
+  TO CALL: billing-agent
+  USING TOOLS: [get_invoice, get_balance]
+
+DENY * TO CALL: billing-agent USING TOOLS: [write_invoice, update_balance]
+  UNLESS caller IN [billing-admin-sa@project.iam.gserviceaccount.com]

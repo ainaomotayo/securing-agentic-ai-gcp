@@ -1,0 +1,3 @@
+Security property: dynamic, flexible routing.
+Primary threat: the model chooses the transfer target; an attacker can influence this choice.
+Primary mitigation: explicit allow-list of valid transfer targets; agent descriptions as security boundaries.

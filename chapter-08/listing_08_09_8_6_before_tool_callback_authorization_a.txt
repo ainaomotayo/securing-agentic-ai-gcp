@@ -1,0 +1,4 @@
+When: Called just before a specific tool's run_async method is invoked.
+Purpose: Authorization checks, argument validation, tool-level rate limiting, logging.
+Return to block: Return a dict to skip the tool and use the dict as the tool result.
+Source: callbacks-types-of-callbacks.md > Tool Execution Callbacks > Before Tool Callback

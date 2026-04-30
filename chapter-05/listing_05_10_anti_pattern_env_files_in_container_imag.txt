@@ -1,0 +1,2 @@
+# WRONG: .env file included in the image
+COPY .env /app/.env

@@ -1,0 +1,7 @@
+# All tool calls in the 10-minute window, grouped by invocation
+resource.type="cloud_run_revision"
+logName="projects/your-project/logs/adk-agent-audit"
+jsonPayload.event_type="tool_call"
+jsonPayload.tool_name="get_current_price"
+timestamp>="2026-04-27T02:04:00Z"
+timestamp<="2026-04-27T02:14:00Z"

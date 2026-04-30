@@ -1,0 +1,16 @@
+# alert-tool-rate-spike.yaml
+displayName: "ADK Tool Call Rate Spike"
+conditions:
+  - displayName: "Tool calls exceed 50 per minute"
+    conditionThreshold:
+      filter: 'metric.type="logging.googleapis.com/user/adk_tool_call_rate"'
+      comparison: COMPARISON_GT
+      thresholdValue: 50
+      duration: 60s
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_RATE
+notificationChannels:
+  - projects/your-project/notificationChannels/your-oncall-channel
+alertStrategy:
+  autoClose: 1800s

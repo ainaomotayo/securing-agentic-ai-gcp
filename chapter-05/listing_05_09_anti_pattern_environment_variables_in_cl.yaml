@@ -1,0 +1,4 @@
+# WRONG: Cloud Run service YAML
+env:
+  - name: OAUTH_CLIENT_SECRET
+    value: "GOCSPX-abcdefghijklmnop12345678"

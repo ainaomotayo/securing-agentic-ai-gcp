@@ -1,0 +1,23 @@
+# deploy/service.yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: customer-support-agent
+spec:
+  template:
+    spec:
+      serviceAccountName: customer-support-agent-prod@my-project.iam.gserviceaccount.com
+      containers:
+        - image: gcr.io/my-project/customer-support-agent:latest
+          env:
+            - name: GOOGLE_CLOUD_PROJECT
+              value: my-project
+            # No API keys in environment variables; Secret Manager only
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "10"  # Cost control as DoS mitigation
+        run.googleapis.com/ingress: internal    # Internal-only if behind a gateway

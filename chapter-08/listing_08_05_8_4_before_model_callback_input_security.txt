@@ -1,0 +1,4 @@
+When: Called just before the generate_content_async request is sent to the LLM.
+Purpose: Input validation, injection screening, PII scrubbing, dynamic instruction injection.
+Return to block: Return LlmResponse to skip the model call entirely.
+Source: callbacks-types-of-callbacks.md > LLM Interaction Callbacks > Before Model Callback
