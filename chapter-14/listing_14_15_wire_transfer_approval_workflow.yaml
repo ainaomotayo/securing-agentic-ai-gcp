@@ -1,0 +1,38 @@
+# Securing Agentic AI on Google Cloud
+# Chapter 14 — Human-in-the-Loop Security Controls
+# Listing: Cloud Workflows definition for financial approval with callback endpoint
+# Repo: https://github.com/ainaomotayo/securing-agentic-ai-gcp
+#
+# Deploy: gcloud workflows deploy wire-transfer-approval --source=this-file.yaml
+# Environment variable required: APPROVER_NOTIFICATION_URL (Cloud Run or HTTP endpoint)
+
+main:
+  params: [args]
+  steps:
+    - create_callback:
+        call: events.create_callback_endpoint
+        args:
+          http_callback_method: POST
+        result: callback_details
+    - notify_approver:
+        call: http.post
+        args:
+          url: ${sys.get_env("APPROVER_NOTIFICATION_URL")}
+          auth:
+            type: OIDC
+          body:
+            callback_url: ${callback_details.http_callback_uri}
+            invocation_id: ${args.invocation_id}
+            session_id: ${args.session_id}
+            tool_name: ${args.tool_name}
+            amount_usd: ${args.amount_usd}
+            vendor_name: ${args.vendor_name}
+        timeout: 30
+    - await_decision:
+        call: events.await_callback
+        args:
+          callback: ${callback_details}
+          timeout: 86400
+        result: callback_request
+    - return_result:
+        return: ${callback_request.http_request.body}

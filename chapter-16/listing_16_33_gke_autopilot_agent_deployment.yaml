@@ -1,0 +1,43 @@
+# Securing Agentic AI on Google Cloud
+# Chapter 16 — Secure Deployment
+# Listing: GKE Autopilot agent pod deployment with hardened securityContext
+# Repo: https://github.com/ainaomotayo/securing-agentic-ai-gcp
+#
+# Autopilot requires both requests and limits. Pods without limits are rejected at admission.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adk-customer-support
+  namespace: adk-agents
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: adk-customer-support
+  template:
+    metadata:
+      labels:
+        app: adk-customer-support
+    spec:
+      serviceAccountName: adk-agent-ksa
+      containers:
+        - name: agent
+          image: us-central1-docker.pkg.dev/$PROJECT_ID/agents/customer-support:latest
+          env:
+            - name: GOOGLE_CLOUD_PROJECT
+              value: "$PROJECT_ID"
+            - name: GOOGLE_CLOUD_LOCATION
+              value: "us-central1"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true

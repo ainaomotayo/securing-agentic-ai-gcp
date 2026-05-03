@@ -1,0 +1,52 @@
+# Securing Agentic AI on Google Cloud
+# Chapter 18 — Governance, Compliance, and the Regulatory Landscape
+# Listing: Gatekeeper constraints for ADK agent deployments
+# Repo: https://github.com/ainaomotayo/securing-agentic-ai-gcp
+#
+# Apply: kubectl apply -f this-file.yaml
+# Requires Policy Controller installed on the cluster (see listing_18_14).
+
+---
+# Constraint 1: Require Workload Identity on all agent service accounts.
+# Pods without this annotation may fall back to the Compute Engine default SA,
+# violating GDPR Article 25 (data protection by design).
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredAnnotations
+metadata:
+  name: require-workload-identity
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["ServiceAccount"]
+    namespaces: ["adk-agents"]
+  parameters:
+    annotations:
+      - key: iam.gke.io/gcp-service-account
+        allowedRegex: ".+@.+\\.iam\\.gserviceaccount\\.com"
+    message: >
+      ADK agent service accounts must have a Workload Identity annotation
+      binding them to a dedicated Google service account. Using the default
+      Compute Engine service account violates the principle of least privilege
+      and fails GDPR Article 25 (data protection by design).
+
+---
+# Constraint 2: Require resource limits on all agent containers.
+# Unlimited containers create a DoS vector and fail EU AI Act Article 9.
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sContainerLimits
+metadata:
+  name: require-adk-resource-limits
+spec:
+  match:
+    kinds:
+      - apiGroups: ["apps"]
+        kinds: ["Deployment"]
+    namespaces: ["adk-agents"]
+  parameters:
+    cpu: "2000m"
+    memory: "2Gi"
+    message: >
+      ADK agent containers must declare CPU and memory limits. Unlimited
+      containers create a resource exhaustion risk under adversarial workloads
+      and fail EU AI Act Article 9 risk management requirements.

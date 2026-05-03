@@ -1,0 +1,12 @@
+# Securing Agentic AI on Google Cloud
+# Chapter 18 — Governance, Compliance, and the Regulatory Landscape
+# Listing: Policy Controller fleet default configuration
+# Repo: https://github.com/ainaomotayo/securing-agentic-ai-gcp
+#
+# auditIntervalSeconds is a YAML field, not a CLI flag.
+# Pass this file to: gcloud container fleet policycontroller enable --fleet-default-member-config=this-file.yaml
+
+policyController:
+  auditIntervalSeconds: 60
+  referentialRulesEnabled: false
+  templateLibraryInstalled: true
